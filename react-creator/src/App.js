@@ -3,6 +3,8 @@ const App = () => {
   return (
     <React.Fragment>
       Nothing
+
+      hot
     </React.Fragment>
   );
 }
