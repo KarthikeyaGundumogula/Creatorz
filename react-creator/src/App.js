@@ -1,19 +1,17 @@
-import React, { Fragment } from "react";
-import { Route, Routes} from "react-router-dom";
-import Home from "./pages/Home";
+import React from "react";
+import { Routes, Route,Navigate } from "react-router-dom";
+import Profile from "./pages/Profile";
 import About from "./pages/About";
-import Profile from "./pages/Profile"
+import Home from "./pages/Home";
 
 const App = () => {
   return (
-    <Fragment>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/profile" element={<Profile />}/>
-      </Routes>
-    </Fragment>
+    <Routes>
+      <Route path="/home" element={<Home />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/" element={<Navigate to="/home" />} />
+    </Routes>
   );
 };
 
