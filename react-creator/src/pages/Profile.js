@@ -5,14 +5,14 @@ import {Link} from "react-router-dom"
 const Profile = (props) => {
   return (
     <Fragment margin="20px">
-      <Button marginTop="2%" marginLeft="10px">
-        <Link to="/home">Home</Link>
-      </Button>
-      <Button left="87%" borderRadius="12px" marginTop="2%">
-        .connect
-      </Button>
       <Center>
-        <Box borderWidth="2px" w="480px" margin="5%">
+        <Box borderWidth="4px" p="2px" w="480px" margin="5%">
+          <Button marginTop="2%" marginLeft="10px">
+            <Link to="/home">Home</Link>
+          </Button>
+          <Button left="265px" borderRadius="12px" marginTop="2%">
+            .connect
+          </Button>
           <Center>
             <Text fontSize="6xl" borderTop="50px">
               Dan Abramov
@@ -46,7 +46,7 @@ const Profile = (props) => {
             <Text fontSize="2xl">Polygon</Text>
           </Center>
           <Center margin="20px">
-            <Button>See on ehterscan</Button>
+            <Button>See on polygonScan</Button>
           </Center>
         </Box>
       </Center>
