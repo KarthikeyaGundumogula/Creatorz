@@ -6,7 +6,7 @@ const Profile = (props) => {
   return (
     <Fragment margin="20px">
       <Button marginTop="2%" marginLeft="10px">
-        <Link></Link>
+        <Link to="/home">Home</Link>
       </Button>
       <Button left="87%" borderRadius="12px" marginTop="2%">
         .connect
