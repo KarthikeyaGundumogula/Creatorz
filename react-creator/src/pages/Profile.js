@@ -4,7 +4,7 @@ import { Text, Center, Box, Button, Image } from "@chakra-ui/react";
 const Profile = (props) => {
   return (
     <Fragment>
-      <Button borderRight="50px" borderRadius="12px" margin="2px">
+      <Button left="90%" borderRight="50px" borderRadius="12px" margin="2px">
         .connect
       </Button>
       <Center>
