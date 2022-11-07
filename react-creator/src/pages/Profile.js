@@ -1,10 +1,10 @@
-import React from 'react'
+import {Fragment} from 'react'
 
-const Profile = () => {
+const Profile = (props) => {
   return (
-    <div>
-        <h2>Profile</h2>
-    </div>
+    <Fragment>
+      <h2 style={border}>Karthikeya</h2>
+    </Fragment>
   )
 }
 
