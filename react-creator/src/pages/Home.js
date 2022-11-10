@@ -12,8 +12,8 @@ import Feed from "../components/Feed"
 
 const Home = () => {
   return (
-    <Fragment>
-      <HStack margin="5px" spacing={21} borderWidth="1px" w="100%" h="4rem">
+    <Fragment margin={2}>
+      <HStack spacing={21} borderWidth="1px" w="100%" h="4rem">
         <Button colorScheme="gray" p="20px" borderWidth="2px" marginLeft="5px">
           <Link to="/dex">Dex</Link>
         </Button>
@@ -28,6 +28,12 @@ const Home = () => {
         </InputGroup>
         <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
           <Link to="/profile">Profile</Link>
+        </Button>
+        <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
+          <Link to="/profile">Collections</Link>
+        </Button>
+        <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
+          <Link to="/profile">MarketPlace</Link>
         </Button>
         <Button colorScheme="gray" p="20px" borderWidth="2px">
           <Link to="/about">About</Link>
