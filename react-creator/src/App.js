@@ -3,7 +3,8 @@ import { Routes, Route,Navigate } from "react-router-dom";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Home from "./pages/Home";
-import Dex from "./pages/Dex"
+import Dex from "./pages/Dex";
+import NewToken from "./pages/NewToken";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/about" element={<About />} />
       <Route path="/dex" element={<Dex />} />
+      <Route path="/new-token" element={<NewToken />}/>
       <Route path="/" element={<Navigate to="/home" />} />
     </Routes>
   );

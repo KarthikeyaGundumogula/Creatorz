@@ -35,6 +35,9 @@ const Home = () => {
         <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
           <Link to="/profile">MarketPlace</Link>
         </Button>
+        <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
+          <Link to="/new-token">New Token</Link>
+        </Button>
         <Button colorScheme="gray" p="20px" borderWidth="2px">
           <Link to="/about">About</Link>
         </Button>
