@@ -1,18 +1,20 @@
 import { Fragment } from "react";
 import { Text, Center, Box, Button, Image } from "@chakra-ui/react";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const Profile = (props) => {
   return (
-    <Fragment margin="20px">
+    <Fragment>
       <Center>
         <Box borderWidth="4px" p="2px" w="480px" margin="5%">
-          <Button marginTop="2%" marginLeft="10px">
-            <Link to="/home">Home</Link>
-          </Button>
-          <Button left="265px" borderRadius="12px" marginTop="2%">
-            .connect
-          </Button>
+          <Link to="/home">
+            <Button marginTop="2%" marginLeft="10px">
+              Home
+            </Button>
+            <Button left="265px" borderRadius="12px" marginTop="2%">
+              .connect
+            </Button>
+          </Link>
           <Center>
             <Text fontSize="6xl" borderTop="50px">
               Dan Abramov

@@ -8,15 +8,22 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import Feed from "../components/Feed"
+import Feed from "../components/Feed";
 
 const Home = () => {
   return (
-    <Fragment margin={2}>
-      <HStack spacing={21} borderWidth="1px" w="100%" h="4rem">
-        <Button colorScheme="gray" p="20px" borderWidth="2px" marginLeft="5px">
-          <Link to="/dex">Dex</Link>
-        </Button>
+    <Fragment>
+      <HStack spacing={2} borderWidth="1px" w="100%" h="4rem" margin={1}>
+        <Link to="/dex">
+          <Button
+            colorScheme="gray"
+            p="20px"
+            borderWidth="2px"
+            marginLeft="5px"
+          >
+            Dex
+          </Button>
+        </Link>
         <Heading fontSize={40}>Creatorz</Heading>
         <InputGroup size="md" width="45rem">
           <Input placeholder="Serach here" pr="4.5rem" />
@@ -26,21 +33,31 @@ const Home = () => {
             </Button>
           </InputRightElement>
         </InputGroup>
-        <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
-          <Link to="/profile">Profile</Link>
-        </Button>
-        <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
-          <Link to="/profile">Collections</Link>
-        </Button>
-        <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
-          <Link to="/profile">MarketPlace</Link>
-        </Button>
-        <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
-          <Link to="/new-token">New Token</Link>
-        </Button>
-        <Button colorScheme="gray" p="20px" borderWidth="2px">
-          <Link to="/about">About</Link>
-        </Button>
+        <Link to="/profile">
+          <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
+            Profile
+          </Button>
+        </Link>
+        <Link to="/market-place">
+          <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
+            MarketPlace
+          </Button>
+        </Link>
+        <Link to="/profile">
+          <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
+            Collections
+          </Button>
+        </Link>
+        <Link to="/new-token">
+          <Button colorScheme="gray" p="20px" borderWidth="2px" margin="5px">
+            New Token
+          </Button>
+        </Link>
+        <Link to="/about">
+          <Button colorScheme="gray" p="20px" borderWidth="2px">
+            About
+          </Button>
+        </Link>
       </HStack>
       <Feed />
     </Fragment>

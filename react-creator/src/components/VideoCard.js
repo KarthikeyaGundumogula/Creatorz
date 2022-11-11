@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Box, Image, Badge } from "@chakra-ui/react";
 
 const VideoCard = () => {
@@ -12,27 +13,28 @@ const VideoCard = () => {
     reviewCount: 34,
     rating: 4,
   };
-
   return (
-    <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
-      <Image src={property.imageUrl} alt={property.imageAlt} />
-      <Box p="6">
-        <Box display="flex" alignItems="baseline">
-          <Badge borderRadius="full" px="2" colorScheme="teal">
-            New
-          </Badge>
-        </Box>
-        <Box
-          mt="1"
-          fontWeight="semibold"
-          as="h4"
-          lineHeight="tight"
-          noOfLines={1}
-        >
-          {property.title}
+    <Link to='/:contentId'>
+      <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+        <Image src={property.imageUrl} alt={property.imageAlt} />
+        <Box p="6">
+          <Box display="flex" alignItems="baseline">
+            <Badge borderRadius="full" px="2" colorScheme="teal">
+              New
+            </Badge>
+          </Box>
+          <Box
+            mt="1"
+            fontWeight="semibold"
+            as="h4"
+            lineHeight="tight"
+            noOfLines={1}
+          >
+            {property.title}
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </Link>
   );
 };
 export default VideoCard;
