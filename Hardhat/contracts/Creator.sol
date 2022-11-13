@@ -3,7 +3,6 @@
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
-
 contract Creator is ERC1155URIStorage{
     address payable private owner;
     using Counters for Counters.Counter;
