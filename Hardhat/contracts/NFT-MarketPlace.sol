@@ -42,7 +42,6 @@ contract NFTMarketplace is ERC721URIStorage {
     constructor() ERC721("NFTMarketplace", "NFTM") {
         owner = payable(msg.sender);
     }
-
     function updateListPrice(uint256 _listPrice) public payable {
         require(owner == msg.sender, "Only owner can update listing price");
         listPrice = _listPrice;

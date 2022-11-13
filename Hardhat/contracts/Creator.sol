@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicense
+//SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -9,8 +9,9 @@ contract Creator is ERC1155URIStorage{
     using Counters for Counters.Counter;
     Counters.Counter private tokenIds;
     Counters.Counter private itemsSold;
-    uint256 private latestNFTTokenId;
-    uint256 private latestSocialTokenId;
+    uint256[] private NFTIds;
+    uint256[] private SocialTokenIds;
+    uint256[] private ListedNFTIds;
     uint256 listingPrice=0.02 ether;
 
     struct ListedNFT{
@@ -18,12 +19,15 @@ contract Creator is ERC1155URIStorage{
         address payable owner;
         address payable seller;
         uint256 price;
+        string Uri;
     }
 
     struct NFT{
         uint256 tokenId;
         address payable owner;
+        address payable seller;
         bool isListed;
+        string Uri;
     }
 
     struct SocialToken{
@@ -75,11 +79,11 @@ contract Creator is ERC1155URIStorage{
     }
 
     function getLatestNFT() public view returns (ListedNFT memory){
-        return idToListedNFT[latestNFTTokenId];
+        return idToListedNFT[NFTIds.length-1];
     }
 
     function getLatestListedSocialToken() public view returns (SocialToken memory){
-        return idToSocialToken[latestSocialTokenId];
+        return idToSocialToken[SocialTokenIds.length-1];
     }
 
     function getListedNFTForId(uint256 _NFTId) public view returns (ListedNFT memory){
@@ -104,11 +108,13 @@ contract Creator is ERC1155URIStorage{
         uint256 newTokenId=tokenIds.current();
         _mint(msg.sender,newTokenId,1,'');
         _setURI(newTokenId,tokenURI);
-        latestNFTTokenId=newTokenId;
+        NFTIds.push(newTokenId);
         idToNFT[newTokenId]=NFT(
             newTokenId,
             payable(msg.sender),
-            false
+            payable(msg.sender),
+            false,
+            tokenURI
             );
         emit NFTCreationSuccess(
             newTokenId,
@@ -124,9 +130,11 @@ contract Creator is ERC1155URIStorage{
             tokenId,
             payable(address(this)),
             payable(msg.sender),
-            price
+            price,
+            uri(tokenId)
         );
         _safeTransferFrom(msg.sender,address(this),tokenId,1,"");
+        ListedNFTIds.push(tokenId);
         emit NFTListedSuccess(
             tokenId,
             address(this),
@@ -135,5 +143,47 @@ contract Creator is ERC1155URIStorage{
             true
         );
         return true;
+    }
+
+    function getAllNFTs() public view returns (NFT[] memory){
+        uint nftCount=NFTIds.length;
+        NFT[] memory nfts=new NFT[](nftCount);
+        uint i;
+        for(i=0;i<nftCount;i++){
+            NFT storage currentItem=idToNFT[NFTIds[i]];
+            nfts[i]=currentItem;
+        }
+        return nfts;
+    }
+
+    function getMyNFTs() public view returns(NFT[] memory){
+        uint totalNftCount=NFTIds.length;
+        uint itemCount=0;
+        uint currentIndex=0;
+        uint currentId;
+        for (uint i=0;i<totalNftCount;i++){
+            if(idToNFT[i+1].owner==msg.sender || idToNFT[i+1].seller == msg.sender){
+                itemCount+=1;
+            }
+        }
+        NFT[] memory items = new NFT[](itemCount);
+        for(uint i=0;i<totalNftCount;i++){
+            if(idToNFT[i+1].owner==msg.sender || idToNFT[i+1].seller == msg.sender){
+                currentId=i+1;
+                NFT storage currentItem=idToNFT[NFTIds[currentId]];
+                items[currentIndex]=currentItem;
+            }
+        }
+        return items;
+    }
+
+    function sellNFT(uint256 tokenId) public payable {
+        uint price =idToListedNFT[tokenId].price;
+        address seller =idToListedNFT[tokenId].seller;
+        require(msg.value == price,"Please sender asking Price");
+        _safeTransferFrom(address(this),msg.sender,tokenId,1,'');
+        _setApprovalForAll(seller,address(this),true);
+        payable(owner).transfer(listingPrice);
+        payable(seller).transfer(msg.value);
     }
 }
