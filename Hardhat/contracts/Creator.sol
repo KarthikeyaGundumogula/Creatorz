@@ -102,7 +102,6 @@ contract Creator is ERC1155URIStorage{
     }
 
     function createNFT(string memory tokenURI) public payable returns (uint256){
-        require(msg.value == listingPrice,'Please send current listing Price');
         tokenIds.increment();
         uint256 newTokenId=tokenIds.current();
         _mint(msg.sender,newTokenId,1,'');
@@ -124,7 +123,6 @@ contract Creator is ERC1155URIStorage{
     }
 
     function listNFT(uint256 price,uint256 tokenId) public payable returns(bool){
-        require(price>0,'price cannot be negative');
         idToListedNFT[tokenId]=ListedNFT(
             tokenId,
             payable(address(this)),
