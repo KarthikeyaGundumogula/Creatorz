@@ -3,8 +3,10 @@
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
+
 contract Creator is ERC1155URIStorage{
     address payable private owner;
+    uint256 public tokenMintingPrice;
     using Counters for Counters.Counter;
     Counters.Counter private tokenIds;
     Counters.Counter private itemsSold;
@@ -125,16 +127,16 @@ contract Creator is ERC1155URIStorage{
     function listNFT(uint256 price,uint256 tokenId) public payable returns(bool){
         idToListedNFT[tokenId]=ListedNFT(
             tokenId,
-            payable(address(this)),
+            payable(owner),
             payable(msg.sender),
             price,
             uri(tokenId)
         );
-        _safeTransferFrom(msg.sender,address(this),tokenId,1,"");
+        _safeTransferFrom(msg.sender,owner,tokenId,1,"");
         ListedNFTIds.push(tokenId);
         emit NFTListedSuccess(
             tokenId,
-            address(this),
+            owner,
             msg.sender,
             price,
             true
@@ -182,5 +184,12 @@ contract Creator is ERC1155URIStorage{
         _setApprovalForAll(seller,address(this),true);
         payable(owner).transfer(listingPrice);
         payable(seller).transfer(msg.value);
+    }
+
+    function createSocialToken(uint256 amount){
+        require(msg.value==tokenMintingPrice*amount,'Please send amount correctly..');
+        tokenIds.increment();
+        uint256 currenTokenId=tokenIds.current();
+        _mint(msg.sender,currenTokenId,amount,'');
     }
 }
