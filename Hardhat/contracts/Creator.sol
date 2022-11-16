@@ -193,4 +193,5 @@ contract Creator is ERC1155URIStorage{
         _mint(msg.sender,currentTokenId,amount,'');
         return currentTokenId;
     }
+    
 }
