@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
 
 contract Creator is ERC1155URIStorage{
     address payable private owner;
-    uint256 public tokenMintingPrice;
+    uint256 public tokenMintingPrice=1 ether;
     using Counters for Counters.Counter;
     Counters.Counter private tokenIds;
     Counters.Counter private itemsSold;
@@ -187,11 +187,13 @@ contract Creator is ERC1155URIStorage{
     }
 
     function createSocialToken(uint256 amount){
-        require(msg.value==tokenMintingPrice*amount,'Please send amount correctly..');
+        uint256 userBalance=balanceOf(msg.sender,nativeTokenId)
+        require(userBalance)
         tokenIds.increment();
         uint256 currentTokenId=tokenIds.current();
         _mint(msg.sender,currentTokenId,amount,'');
+
         return currentTokenId;
     }
-    
+
 }
