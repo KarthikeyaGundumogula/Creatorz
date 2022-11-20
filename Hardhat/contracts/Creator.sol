@@ -65,7 +65,7 @@ contract Creator is ERC1155URIStorage{
     mapping (uint256 => NFT) private idToNFT;
     mapping (uint256 => SocialToken) private idToSocialToken;
     uint256 private nativeTokenId; 
-    uint256 private totalSupply=10**6 ether
+    uint256 private totalSupply=10**24;
 
     constructor() ERC1155(""){
         owner = payable(msg.sender);
@@ -90,7 +90,7 @@ contract Creator is ERC1155URIStorage{
         return idToListedNFT[NFTIds[NFTIds.length-1]];
     }
 
-    function getLatestSocialToken() public view returns(uint256){
+    function getLatestSocialToken() public view returns(SocialToken memory){
         return idToSocialToken[SocialTokenIds[SocialTokenIds.length-1]];
     }
 
@@ -112,6 +112,12 @@ contract Creator is ERC1155URIStorage{
 
     function getCurrentToken() public view returns(uint256){
         return tokenIds.current();
+    }
+
+    function buyCreatorzToken(uint256 amount) public payable returns(bool){
+        require(amount<totalSupply,'amount should be less than total supply');
+        _safeTransferFrom(owner,msg.sender,nativeTokenId,amount,'');
+        return true;
     }
 
     function createNFT(string memory tokenURI) public payable returns (uint256){
@@ -166,8 +172,6 @@ contract Creator is ERC1155URIStorage{
         return nfts;
     }
 
-    function buyCreatorzToken(uint256 amount)
-
     function getMyNFTs() public view returns(NFT[] memory){
         uint totalNftCount=NFTIds.length;
         uint itemCount=0;
@@ -214,8 +218,8 @@ contract Creator is ERC1155URIStorage{
             price,
             true
         );
-        emit(currentTokenId,payable(msg.sender),amount,price);
-        _safeTransferFrom(msg.sender,owner,totalCost,'');
+        emit TokenCreationSuccess(currentTokenId,payable(msg.sender),amount,price);
+        _safeTransferFrom(msg.sender,owner,totalCost,0,'');
         return currentTokenId;
     }
 
