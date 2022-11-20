@@ -6,14 +6,15 @@ import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol";
 
 contract Creator is ERC1155URIStorage{
     address payable private owner;
-    uint256 public tokenMintingPrice=1 ether;
+    uint256 tokenMintingPrice=1 ether;
     using Counters for Counters.Counter;
     Counters.Counter private tokenIds;
     Counters.Counter private itemsSold;
     uint256[] private NFTIds;
     uint256[] private SocialTokenIds;
+    uint256[] private ListedSocialTokenIds;
     uint256[] private ListedNFTIds;
-    uint256 listingPrice=0.02 ether;
+    uint256 listingPrice=1 ether;
 
     struct ListedNFT{
         uint256 tokenId;
@@ -36,6 +37,7 @@ contract Creator is ERC1155URIStorage{
         address payable owner;
         uint256 amount;
         uint256 price;
+        bool isListed;
     }
 
     event NFTListedSuccess(
@@ -62,12 +64,13 @@ contract Creator is ERC1155URIStorage{
     mapping (uint256 => ListedNFT) private idToListedNFT;
     mapping (uint256 => NFT) private idToNFT;
     mapping (uint256 => SocialToken) private idToSocialToken;
-    uint256 private nativeTokenId;
+    uint256 private nativeTokenId; 
+    uint256 private totalSupply=10**6 ether
 
     constructor() ERC1155(""){
         owner = payable(msg.sender);
         uint256 currentId=tokenIds.current();
-        _mint(msg.sender,currentId,10**24,'');
+        _mint(msg.sender,currentId,totalSupply,'');
         nativeTokenId=currentId;
     }
 
@@ -75,16 +78,24 @@ contract Creator is ERC1155URIStorage{
         return nativeTokenId;
     }
 
-    function getListedPriceNFT() public view returns(uint256){
+    function getTokenMintingPrice() public view returns(uint256){
+        return tokenMintingPrice;
+    }
+
+    function getNftListingPrice() public view returns(uint256){
         return listingPrice;
     }
 
     function getLatestNFT() public view returns (ListedNFT memory){
-        return idToListedNFT[NFTIds.length-1];
+        return idToListedNFT[NFTIds[NFTIds.length-1]];
+    }
+
+    function getLatestSocialToken() public view returns(uint256){
+        return idToSocialToken[SocialTokenIds[SocialTokenIds.length-1]];
     }
 
     function getLatestListedSocialToken() public view returns (SocialToken memory){
-        return idToSocialToken[SocialTokenIds.length-1];
+        return idToSocialToken[ListedSocialTokenIds[ListedSocialTokenIds.length-1]];
     }
 
     function getListedNFTForId(uint256 _NFTId) public view returns (ListedNFT memory){
@@ -155,6 +166,8 @@ contract Creator is ERC1155URIStorage{
         return nfts;
     }
 
+    function buyCreatorzToken(uint256 amount)
+
     function getMyNFTs() public view returns(NFT[] memory){
         uint totalNftCount=NFTIds.length;
         uint itemCount=0;
@@ -186,13 +199,22 @@ contract Creator is ERC1155URIStorage{
         payable(seller).transfer(msg.value);
     }
 
-    function createSocialToken(uint256 amount){
-        uint256 userBalance=balanceOf(msg.sender,nativeTokenId)
-        require(userBalance)
+    function createSocialToken(uint256 amount,uint256 price) public returns(uint256){
+        uint256 userBalance=balanceOf(msg.sender,nativeTokenId);
+        uint256 totalCost=tokenMintingPrice*amount;
+        require(userBalance>totalCost,'Please check Your Creatorz balance');
         tokenIds.increment();
         uint256 currentTokenId=tokenIds.current();
         _mint(msg.sender,currentTokenId,amount,'');
-
+        SocialTokenIds.push(currentTokenId);
+        idToSocialToken[currentTokenId]=SocialToken(
+            currentTokenId,
+            payable(msg.sender),
+            amount,
+            price,
+            true
+        );
+        _safeTransferFrom(msg.sender,owner,totalCost,'');
         return currentTokenId;
     }
 
