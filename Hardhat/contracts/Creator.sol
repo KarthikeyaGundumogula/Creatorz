@@ -214,6 +214,7 @@ contract Creator is ERC1155URIStorage{
             price,
             true
         );
+        emit(currentTokenId,payable(msg.sender),amount,price);
         _safeTransferFrom(msg.sender,owner,totalCost,'');
         return currentTokenId;
     }
