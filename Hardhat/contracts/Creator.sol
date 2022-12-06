@@ -10,6 +10,7 @@ contract Creator is ERC1155URIStorage{
     using Counters for Counters.Counter;
     Counters.Counter private tokenIds;
     Counters.Counter private itemsSold;
+    uint256 private creatorPrize;
     uint256[] private NFTIds;
     uint256[] private SocialTokenIds;
     uint256[] private ListedSocialTokenIds;
@@ -116,6 +117,7 @@ contract Creator is ERC1155URIStorage{
 
     function buyCreatorzToken(uint256 amount) public payable returns(bool){
         require(amount<totalSupply,'amount should be less than total supply');
+        payable(msg.sender).transfer(creatorPrize);
         _safeTransferFrom(owner,msg.sender,nativeTokenId,amount,'');
         return true;
     }
